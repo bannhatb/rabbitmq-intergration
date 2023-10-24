@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Text;
+using ConsumerService.API.Models;
+using ConsumerService.API.Services.EventHandlers;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using ProducerService.API.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -124,6 +127,16 @@ namespace ConsumerService.API.Services
             try
             {
                 _logger.LogTrace(message);
+                // handle event
+                switch (eventName)
+                {
+                    case nameof(MessageModel):
+                        var obj = JsonConvert.DeserializeObject<MessageModel>(message);
+                        // call handler
+                        var handler = new SampleHandler();
+                        handler.Process(obj);
+                        break;
+                }
                 await Task.CompletedTask;
             }
             catch (Exception ex)

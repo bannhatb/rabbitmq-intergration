@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{9D8EAF00-46C1-48E2-BD66-3EED822B991C}|https">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsumerService.API/AppSettings.cs">
+    <Files>
+      <File FileName="ConsumerService.API/Services/IRabbitMQPersistentConnection.cs" />
+      <File FileName="ConsumerService.API/Services/RabbitMQPersistentConnection.cs" />
+      <File FileName="ConsumerService.API/Services/IEventBusService.cs" />
+      <File FileName="ConsumerService.API/Services/EventBusService.cs" />
+      <File FileName="ConsumerService.API/appsettings.json" />
+      <File FileName="ConsumerService.API/AppSettings.cs" Line="11" Column="1" />
+      <File FileName="ConsumerService.API/Program.cs" />
+      <File FileName="ConsumerService.API/Models/MessageModel.cs" />
+      <File FileName="ConsumerService.API/Services/RabbitConsumerService.cs" />
+      <File FileName="ConsumerService.API/Services/EventHandlers/SampleHandler.cs" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.ConsumerService.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace ProducerService.API.Services
 {
-	public class EventBusService : IEventBusService
+    public class EventBusService : IEventBusService
     {
         const string BROKER_NAME = "my_event_bus";
 
@@ -15,12 +15,12 @@ namespace ProducerService.API.Services
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<EventBusService> _logger;
 
-        public EventBusService(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusService> logger, IOptions<EventBusSettings> options) 
-		{
+        public EventBusService(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusService> logger, IOptions<EventBusSettings> options)
+        {
             _persistentConnection = persistentConnection;
             _logger = logger;
             _queueName = options.Value.SubscriptionClientName;
-		}
+        }
 
         public void Publish(object message)
         {
