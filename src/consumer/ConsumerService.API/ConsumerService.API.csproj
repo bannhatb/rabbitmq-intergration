@@ -17,8 +17,10 @@
 
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="Services\EventHandlers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Services\EventHandlers\" />
   </ItemGroup>
 </Project>

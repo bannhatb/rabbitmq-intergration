@@ -30,6 +30,7 @@ builder.Services.AddSingleton<IRabbitMQPersistentConnection, RabbitMQPersistentC
 
 builder.Services.AddScoped<IEventBusService, EventBusService>();
 
+// Service chay ngam
 builder.Services.AddHostedService(sp =>
 {
     var connection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
@@ -39,7 +40,7 @@ builder.Services.AddHostedService(sp =>
     // list subscribe
     var eventNames = new List<string>()
     {
-        typeof(MessageModel).Name
+        nameof(MessageModel)
     };
 
     return new RabbitConsumerService(connection, logger, configOptions, eventNames);
