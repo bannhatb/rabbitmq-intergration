@@ -1,10 +1,10 @@
 ﻿using System;
-namespace ProducerService.API.Services
+namespace ConsumerService.API.Services
 {
 	public interface IEventBusService
 	{
 		void Publish(object message);
 
-    }
+	}
 }
 

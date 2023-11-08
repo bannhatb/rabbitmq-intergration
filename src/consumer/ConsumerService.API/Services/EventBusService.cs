@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using RabbitMQ.Client;
 
-namespace ProducerService.API.Services
+namespace ConsumerService.API.Services
 {
     public class EventBusService : IEventBusService
     {

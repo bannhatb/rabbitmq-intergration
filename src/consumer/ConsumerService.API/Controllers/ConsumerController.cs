@@ -1,6 +1,6 @@
-﻿using ConsumerService.API.Models;
+﻿using ConsumerService.API.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
-using ProducerService.API.Services;
+using ConsumerService.API.Services;
 
 namespace ConsumerService.API.Controllers;
 
