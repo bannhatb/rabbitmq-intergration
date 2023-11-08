@@ -2,9 +2,9 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace ProducerService.API.Services
+namespace ConsumerService.API.Services
 {
-	public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
+    public class RabbitMQPersistentConnection : IRabbitMQPersistentConnection
     {
         private readonly IConnectionFactory _connectionFactory;
         private readonly ILogger<RabbitMQPersistentConnection> _logger;

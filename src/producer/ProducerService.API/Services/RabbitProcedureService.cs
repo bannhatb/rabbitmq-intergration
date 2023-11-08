@@ -1,27 +1,26 @@
-﻿using System;
-using System.Text;
-using ConsumerService.API.Models.Entities;
-using ConsumerService.API.Services.EventHandlers;
+﻿using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using ProducerService.API.Models.Entities;
+using ProducerService.API.Services.EventHandlers;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace ConsumerService.API.Services
+namespace ProducerService.API.Services
 {
-    public class RabbitConsumerService : IHostedService, IDisposable
+    public class RabbitProducerService : IHostedService, IDisposable
     {
         const string BROKER_NAME = "my_event_bus";
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
-        private readonly ILogger<RabbitConsumerService> _logger;
+        private readonly ILogger<RabbitProducerService> _logger;
 
-        private IModel? _consumerChannel;
+        private IModel? _producerChannel;
         private string? _queueName;
         private List<string> _eventNames;
 
-        public RabbitConsumerService(IRabbitMQPersistentConnection persistentConnection,
-                                     ILogger<RabbitConsumerService> logger,
+        public RabbitProducerService(IRabbitMQPersistentConnection persistentConnection,
+                                     ILogger<RabbitProducerService> logger,
                                      IOptions<EventBusSettings> options,
                                      List<string> eventNames)
         {
@@ -33,16 +32,16 @@ namespace ConsumerService.API.Services
 
         public void Dispose()
         {
-            if (_consumerChannel != null)
+            if (_producerChannel != null)
             {
-                _consumerChannel.Dispose();
+                _producerChannel.Dispose();
             }
 
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            _consumerChannel = CreateConsumerChannel();
+            _producerChannel = CreateProducerChannel();
 
             // subscribe event
             foreach (var eventName in _eventNames)
@@ -50,22 +49,22 @@ namespace ConsumerService.API.Services
                 DoInternalSubscription(eventName);
             }
             //
-            StartBasicConsume();
+            StartBasicProducer();
             await Task.CompletedTask;
 
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            if (_consumerChannel != null)
+            if (_producerChannel != null)
             {
-                _consumerChannel.Dispose();
+                _producerChannel.Dispose();
             }
 
             await Task.CompletedTask;
         }
 
-        private IModel CreateConsumerChannel()
+        private IModel CreateProducerChannel()
         {
             if (!_persistentConnection.IsConnected)
             {
@@ -89,36 +88,36 @@ namespace ConsumerService.API.Services
             {
                 _logger.LogWarning(ea.Exception, "Recreating RabbitMQ consumer channel");
 
-                _consumerChannel?.Dispose();
-                _consumerChannel = CreateConsumerChannel();
-                StartBasicConsume();
+                _producerChannel?.Dispose();
+                _producerChannel = CreateProducerChannel();
+                StartBasicProducer();
             };
 
             return channel;
         }
 
-        private void StartBasicConsume()
+        private void StartBasicProducer()
         {
             _logger.LogTrace("Starting RabbitMQ basic consume");
 
-            if (_consumerChannel != null)
+            if (_producerChannel != null)
             {
-                var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
+                var producer = new AsyncEventingBasicConsumer(_producerChannel);
 
-                consumer.Received += Consumer_Received;
+                producer.Received += Producer_Received;
 
-                _consumerChannel.BasicConsume(
+                _producerChannel.BasicConsume(
                     queue: _queueName,
                     autoAck: false,
-                    consumer: consumer);
+                    consumer: producer);
             }
             else
             {
-                _logger.LogError("StartBasicConsume can't call on _consumerChannel == null");
+                _logger.LogError("StartBasicProducer can't call on _producerChannel == null");
             }
         }
 
-        private async Task Consumer_Received(object sender, BasicDeliverEventArgs eventArgs)
+        private async Task Producer_Received(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
             var message = Encoding.UTF8.GetString(eventArgs.Body.Span);
@@ -146,7 +145,7 @@ namespace ConsumerService.API.Services
             // Even on exception we take the message off the queue.
             // in a REAL WORLD app this should be handled with a Dead Letter Exchange (DLX). 
             // For more information see: https://www.rabbitmq.com/dlx.html
-            _consumerChannel?.BasicAck(eventArgs.DeliveryTag, multiple: false);
+            _producerChannel?.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
 
         private void DoInternalSubscription(string eventName)
@@ -156,7 +155,7 @@ namespace ConsumerService.API.Services
                 _persistentConnection.TryConnect();
             }
 
-            _consumerChannel.QueueBind(queue: _queueName,
+            _producerChannel.QueueBind(queue: _queueName,
                                 exchange: BROKER_NAME,
                                 routingKey: eventName);
         }

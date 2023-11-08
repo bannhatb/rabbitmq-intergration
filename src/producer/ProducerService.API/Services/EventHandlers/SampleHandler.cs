@@ -1,7 +1,7 @@
 ﻿using System;
-using ConsumerService.API.Models.Entities;
+using ProducerService.API.Models.Entities;
 
-namespace ConsumerService.API.Services.EventHandlers
+namespace ProducerService.API.Services.EventHandlers
 {
 	public class SampleHandler
 	{

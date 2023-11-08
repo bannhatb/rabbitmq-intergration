@@ -1,17 +1,17 @@
-﻿using ConsumerService.API.Models.Entities;
-using ConsumerService.API.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProducerService.API.Models.Entities;
+using ProducerService.API.Services;
 
-namespace ConsumerService.API.Controllers
+namespace ProducerService.API.Controllers
 {
     [ApiController]
     [Route("api")]
-    public class ProcedureController : ControllerBase
+    public class ProducerController : ControllerBase
     {
-        private readonly ILogger<ProcedureController> _logger;
+        private readonly ILogger<ProducerController> _logger;
         private readonly IEventBusService _eventBus;
 
-        public ProcedureController(ILogger<ProcedureController> logger, IEventBusService eventBus)
+        public ProducerController(ILogger<ProducerController> logger, IEventBusService eventBus)
         {
             _logger = logger;
             _eventBus = eventBus;

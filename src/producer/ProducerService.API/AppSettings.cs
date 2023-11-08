@@ -1,5 +1,4 @@
 ﻿namespace ProducerService.API;
-
 public class EventBusSettings
 {
     public string SubscriptionClientName { get; set; } = null!;

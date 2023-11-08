@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ConsumerService.API.Models
+namespace ProducerService.API.Models.Entities
 {
     public class MessageModel
     {
