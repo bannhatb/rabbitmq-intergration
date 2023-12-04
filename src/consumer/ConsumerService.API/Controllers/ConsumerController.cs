@@ -24,6 +24,7 @@ public class ConsumerController : ControllerBase
         if (ModelState.IsValid)
         {
             _eventBus.Publish(message);
+            Console.WriteLine("message has been receive AAAA" + message);
 
             return Ok(new { msg = "message has been receive" });
         }

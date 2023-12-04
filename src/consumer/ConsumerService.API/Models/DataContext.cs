@@ -9,9 +9,9 @@ namespace ConsumerService.API.Models.Entities
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionExam> QuestionExams { get; set; }
-        public DbSet<TestQuestionUserChoose> TestQuestionUserChooses { get; set; }
-        public DbSet<TestUser> TestUsers { get; set; }
-        public DbSet<User> Users { get; set; }
+        // public DbSet<TestQuestionUserChoose> TestQuestionUserChooses { get; set; }
+        // public DbSet<TestUser> TestUsers { get; set; }
+        // public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Answer
@@ -31,17 +31,17 @@ namespace ConsumerService.API.Models.Entities
                 .WithMany(q => q.QuestionExams)
                 .HasForeignKey(qe => qe.QuestionId);
 
-            // TestQuestionUserChoose
-            modelBuilder.Entity<TestQuestionUserChoose>()
-                .HasOne<User>(tq => tq.User)
-                .WithMany(u => u.TestQuestionUserChooses)
-                .HasForeignKey(tq => tq.UserId);
+            // // TestQuestionUserChoose
+            // modelBuilder.Entity<TestQuestionUserChoose>()
+            //     .HasOne<User>(tq => tq.User)
+            //     .WithMany(u => u.TestQuestionUserChooses)
+            //     .HasForeignKey(tq => tq.UserId);
 
-            // TestQuestionUserChoose
-            modelBuilder.Entity<TestUser>()
-                .HasOne<User>(tu => tu.User)
-                .WithMany(u => u.TestUsers)
-                .HasForeignKey(tu => tu.UserId);
+            // // TestQuestionUserChoose
+            // modelBuilder.Entity<TestUser>()
+            //     .HasOne<User>(tu => tu.User)
+            //     .WithMany(u => u.TestUsers)
+            //     .HasForeignKey(tu => tu.UserId);
 
             base.OnModelCreating(modelBuilder);
         }

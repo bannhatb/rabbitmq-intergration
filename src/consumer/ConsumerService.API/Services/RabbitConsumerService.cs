@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using ConsumerService.API.DTOs;
 using ConsumerService.API.Models.Entities;
 using ConsumerService.API.Services.EventHandlers;
 using Microsoft.Extensions.Options;
@@ -134,6 +135,13 @@ namespace ConsumerService.API.Services
                         // call handler
                         var handler = new SampleHandler();
                         handler.Process(obj);
+                        break;
+
+                    case nameof(TestResultDto):
+                        var testResultDto = JsonConvert.DeserializeObject<TestResultDto>(message);
+                        // call handler
+                        var handlerTestResultDto = new TestResultHandler();
+                        handlerTestResultDto.ProcessTestResult(testResultDto);
                         break;
                 }
                 await Task.CompletedTask;

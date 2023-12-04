@@ -1,17 +1,21 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Reflection;
-using System.Text;
-using ConsumerService.API;
+﻿using ConsumerService.API;
+using ConsumerService.API.DTOs;
 using ConsumerService.API.Models.Entities;
+using ConsumerService.API.Repositories;
 using ConsumerService.API.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
+// Connect MongoDB
 var connectionString = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<DataContext>(options =>
+    options.UseNpgsql(connectionString)
+    .LogTo(Console.WriteLine, LogLevel.Information)
+    .EnableSensitiveDataLogging()
+    .EnableDetailedErrors()
+);
 
 // Add services to the container.
 builder.Services.AddOptions<EventBusSettings>().BindConfiguration("EventBusSettings");
@@ -35,6 +39,8 @@ builder.Services.AddSingleton<IConnectionFactory>(options =>
 builder.Services.AddSingleton<IRabbitMQPersistentConnection, RabbitMQPersistentConnection>();
 
 builder.Services.AddScoped<IEventBusService, EventBusService>();
+builder.Services.AddScoped<IExamRepository, ExamRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 // Service chay ngam
 builder.Services.AddHostedService(sp =>
@@ -46,7 +52,8 @@ builder.Services.AddHostedService(sp =>
     // list subscribe
     var eventNames = new List<string>()
     {
-        nameof(MessageModel)
+        nameof(MessageModel),
+        nameof(TestResultDto)
     };
 
     return new RabbitConsumerService(connection, logger, configOptions, eventNames);
@@ -56,72 +63,10 @@ builder.Services.AddHostedService(sp =>
 
 builder.Services.AddControllers();
 
-//Connection SQL server
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(connectionString));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-    {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "PBL6.WebAPI", Version = "v1" });
-        //add frame to get token bearer
-        c.AddSecurityDefinition("Bearer",
-            new OpenApiSecurityScheme
-            {
-                In = ParameterLocation.Header,
-                Description = "Please enter into field the word 'Bearer' following by space and JWT",
-                Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "MyAuthKey"
-            });
-        c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-        {
-            {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    },
-                    Scheme = "Bearer",
-                    Name = "Bearer",
-                    In = ParameterLocation.Header,
-                },
-                new List<string>()
-            }
-        });
-
-        //// using System.Reflection;
-        //var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-        //c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-    });
-
-//var audience = builder.Configuration.GetSection("Audience").Get<Audience>();
-
-//JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-
-//var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(audience.Secret));
-//var tokenValidationParameters = new TokenValidationParameters //verify token
-//{
-//    ValidateIssuerSigningKey = true,
-//    IssuerSigningKey = signingKey,
-//    ValidateIssuer = true,
-//    ValidIssuer = audience.Issuer,
-//    ValidateAudience = true,
-//    ValidAudience = audience.Name,
-//    ValidateLifetime = true,
-//    ClockSkew = TimeSpan.Zero,
-//    RequireExpirationTime = true,
-//};
-//builder.Services.AddAuthentication()
-//    .AddJwtBearer("MyAuthKey", options =>
-//    {
-//        options.RequireHttpsMetadata = false;
-//        options.SaveToken = true;
-//        options.TokenValidationParameters = tokenValidationParameters;
-//    });
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
