@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{8FBB3420-8628-44CF-9C78-08EC5F48B879}|https">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ProducerService.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ProducerService.API/Services/RabbitProcedureService.cs">
+    <Files>
+      <File FileName="ProducerService.API/Controllers/ProducerController.cs" Line="14" Column="55" />
+      <File FileName="ProducerService.API/Models/Entities/QuestionExam.cs" Line="19" Column="1" />
+      <File FileName="ProducerService.API/Program.cs" Line="47" Column="37" />
+      <File FileName="ProducerService.API/Services/RabbitProcedureService.cs" Line="114" Column="17" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ProducerService.API">
+            <Node name="ProducerService.API" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Entities" expanded="True" />
+              </Node>
+              <Node name="Services" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

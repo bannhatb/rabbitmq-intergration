@@ -1,24 +1,29 @@
 ﻿<Properties StartupConfiguration="{9D8EAF00-46C1-48E2-BD66-3EED822B991C}|https">
-  <MonoDevelop.Ide.Workbench ActiveDocument="ConsumerService.API/Controllers/ProcedureController.cs">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ConsumerService.API/Services/RabbitConsumerService.cs">
     <Files>
       <File FileName="ConsumerService.API/Services/IRabbitMQPersistentConnection.cs" />
-      <File FileName="ConsumerService.API/Services/RabbitMQPersistentConnection.cs" />
+      <File FileName="ConsumerService.API/Services/RabbitMQPersistentConnection.cs" Line="42" Column="1" />
       <File FileName="ConsumerService.API/Services/IEventBusService.cs" />
       <File FileName="ConsumerService.API/Services/EventBusService.cs" />
       <File FileName="ConsumerService.API/appsettings.json" />
-      <File FileName="ConsumerService.API/AppSettings.cs" Line="11" Column="1" />
-      <File FileName="ConsumerService.API/Program.cs" />
-      <File FileName="ConsumerService.API/Models/MessageModel.cs" />
-      <File FileName="ConsumerService.API/Services/RabbitConsumerService.cs" Line="1" Column="1" />
-      <File FileName="ConsumerService.API/Services/EventHandlers/SampleHandler.cs" Line="15" Column="4" />
-      <File FileName="ConsumerService.API/Controllers/ProcedureController.cs" Line="31" Column="1" />
+      <File FileName="ConsumerService.API/AppSettings.cs" />
+      <File FileName="ConsumerService.API/Program.cs" Line="98" Column="11" />
+      <File FileName="ConsumerService.API/Services/RabbitConsumerService.cs" Line="113" Column="29" />
+      <File FileName="ConsumerService.API/Services/EventHandlers/SampleHandler.cs" />
+      <File FileName="ConsumerService.API/Controllers/ProcedureController.cs" Line="35" Column="1" />
+      <File FileName="ConsumerService.API/Controllers/ConsumerController.cs" Line="36" Column="1" />
+      <File FileName="ConsumerService.API/Models/Entities/MessageModel.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="ConsumerService.API" expanded="True">
+          <Node name="ConsumerService.API">
             <Node name="ConsumerService.API" expanded="True">
               <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="Entities" expanded="True" />
+              </Node>
               <Node name="Services" expanded="True">
                 <Node name="EventHandlers" expanded="True" />
               </Node>
@@ -32,10 +37,8 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/vovanban/Documents/Kỳ 8/rabbitmq-intergration/src/consumer/ConsumerService.API/Services/EventHandlers/SampleHandler.cs" relfile="ConsumerService.API/Services/EventHandlers/SampleHandler.cs" line="14" column="1" />
-      <Breakpoint file="/Users/vovanban/Documents/Kỳ 8/rabbitmq-intergration/src/consumer/ConsumerService.API/Controllers/ProcedureController.cs" relfile="ConsumerService.API/Controllers/ProcedureController.cs" line="23" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
