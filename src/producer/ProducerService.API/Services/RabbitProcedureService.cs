@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using ProducerService.API.DTOs;
 using ProducerService.API.Models.Entities;
 using ProducerService.API.Services.EventHandlers;
 using RabbitMQ.Client;
@@ -128,12 +129,13 @@ namespace ProducerService.API.Services
                 // handle event
                 switch (eventName)
                 {
-                    case nameof(MessageModel):
-                        var obj = JsonConvert.DeserializeObject<MessageModel>(message);
+                    case nameof(ScoreUserTest):
+                        var objScoreUserTest = JsonConvert.DeserializeObject<ScoreUserTest>(message);
                         // call handler
-                        var handler = new SampleHandler();
-                        handler.Process(obj);
+                        var handlerScoreUserTest = new TestUserHandler();
+                        handlerScoreUserTest.ProcessScoreUserTest(objScoreUserTest);
                         break;
+
                 }
                 await Task.CompletedTask;
             }

@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProducerService.API.DTOs;
 using ProducerService.API.Models.Entities;
 using ProducerService.API.Services;
 
 namespace ProducerService.API.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/[controller]")]
     public class ProducerController : ControllerBase
     {
         private readonly ILogger<ProducerController> _logger;
@@ -28,6 +29,19 @@ namespace ProducerService.API.Controllers
             }
 
             return BadRequest(new { msg = "invalid message" });
+        }
+
+        [HttpPost("send-test-user-choose")]
+        public IActionResult SendTestUserChoose([FromBody] TestResultDto testResultDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _eventBus.Publish(testResultDto);
+
+                return Ok(new { msg = "The answer has been sent successfully" });
+            }
+
+            return BadRequest(new { msg = "The answer has been sent failed" });
         }
     }
 }

@@ -1,19 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ProducerService.API.Models.Entities
+namespace ProducerService.API.DTOs
 {
-    public class User
+    public class RegisterUserDto
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MinLength(5)]
         [MaxLength(32)]
         public string Username { get; set; }
 
         [Required]
-        [MaxLength(256)]
         public string Password { get; set; }
 
         [Required]
@@ -26,8 +26,5 @@ namespace ProducerService.API.Models.Entities
         [MaxLength(32)]
         public string LastName { get; set; }
         public bool IsBlock { get; set; }
-
-        public ICollection<TestUser> TestUsers { get; set; }
-        public ICollection<TestQuestionUserChoose> TestQuestionUserChooses { get; set; }
     }
 }
