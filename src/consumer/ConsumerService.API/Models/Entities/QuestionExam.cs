@@ -11,7 +11,7 @@ namespace ConsumerService.API.Models.Entities
         public Question Question { get; set; }
 
         [Key]
-        [Column(Order = 1)]
+        [Column(Order = 2)]
         public int ExamId { get; set; }
         public Exam Exam { get; set; }
     }
