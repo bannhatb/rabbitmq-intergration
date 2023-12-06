@@ -16,20 +16,22 @@ namespace ConsumerService.API.Services
 
         private readonly IRabbitMQPersistentConnection _persistentConnection;
         private readonly ILogger<RabbitConsumerService> _logger;
-
+        private readonly ISubscriptionManager _subscriptionManager;
+        private readonly IServiceProvider _serviceProvider;
         private IModel? _consumerChannel;
         private string? _queueName;
-        private List<string> _eventNames;
 
         public RabbitConsumerService(IRabbitMQPersistentConnection persistentConnection,
                                      ILogger<RabbitConsumerService> logger,
                                      IOptions<EventBusSettings> options,
-                                     List<string> eventNames)
+                                     IServiceProvider serviceProvider,
+                                     ISubscriptionManager subscriptionManager)
         {
             _persistentConnection = persistentConnection;
             _logger = logger;
             _queueName = options.Value.SubscriptionClientName;
-            _eventNames = eventNames;
+            _subscriptionManager = subscriptionManager;
+            _serviceProvider = serviceProvider;
         }
 
         public void Dispose()
@@ -46,7 +48,8 @@ namespace ConsumerService.API.Services
             _consumerChannel = CreateConsumerChannel();
 
             // subscribe event
-            foreach (var eventName in _eventNames)
+            var events = _subscriptionManager.GetEvents();
+            foreach (var eventName in events)
             {
                 DoInternalSubscription(eventName);
             }
@@ -126,25 +129,7 @@ namespace ConsumerService.API.Services
 
             try
             {
-                _logger.LogTrace(message);
-                // handle event
-                switch (eventName)
-                {
-                    case nameof(MessageModel):
-                        var obj = JsonConvert.DeserializeObject<MessageModel>(message);
-                        // call handler
-                        var handler = new SampleHandler();
-                        handler.Process(obj);
-                        break;
-
-                    case nameof(TestResultDto):
-                        var testResultDto = JsonConvert.DeserializeObject<TestResultDto>(message);
-                        // call handler
-                        var handlerTestResultDto = new TestResultHandler();
-                        handlerTestResultDto.ProcessTestResult(testResultDto);
-                        break;
-                }
-                await Task.CompletedTask;
+                await ProcessEvent(eventName, message);
             }
             catch (Exception ex)
             {
@@ -155,6 +140,57 @@ namespace ConsumerService.API.Services
             // in a REAL WORLD app this should be handled with a Dead Letter Exchange (DLX). 
             // For more information see: https://www.rabbitmq.com/dlx.html
             _consumerChannel?.BasicAck(eventArgs.DeliveryTag, multiple: false);
+        }
+
+        private async Task ProcessEvent(string eventName, string message)
+        {
+            _logger.LogTrace("Processing RabbitMQ event: {EventName}", eventName);
+
+            if (_subscriptionManager.HasSubscriptionsForEvent(eventName))
+            {
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var subscriptions = _subscriptionManager.GetHandlersForEvent(eventName);
+                    foreach (var subscription in subscriptions)
+                    {
+                        var handler = scope.ServiceProvider.GetRequiredService(subscription.HandlerType);
+
+                        if (handler == null)
+                        {
+                            continue;
+                        }
+
+                        var eventType = _subscriptionManager.GetEventTypeByName(eventName);
+
+                        if (eventType == null)
+                        {
+                            continue;
+                        }
+
+                        var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
+
+                        if (integrationEvent == null)
+                        {
+                            continue;
+                        }
+
+                        var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+
+                        if (concreteType == null)
+                        {
+                            continue;
+                        }
+
+                        await Task.Yield();
+
+                        await (Task)concreteType.GetMethod("Handle")?.Invoke(handler, new object[] { integrationEvent })!;
+                    }
+                }
+            }
+            else
+            {
+                _logger.LogWarning("No subscription for RabbitMQ event: {EventName}", eventName);
+            }
         }
 
         private void DoInternalSubscription(string eventName)

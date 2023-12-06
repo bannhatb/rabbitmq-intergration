@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProducerService.API.DTOs;
 using ProducerService.API.Models.Entities;
+using ProducerService.API.Models.Events;
 using ProducerService.API.Repositories;
 using ProducerService.API.Services;
 
@@ -111,11 +112,11 @@ namespace producer.ProducerService.API.Controllers
             }
         }
         [HttpPost("send-test-user-choose")]
-        public IActionResult SendTestUserChoose([FromBody] TestResultDto testResultDto)
+        public IActionResult SendTestUserChoose([FromBody] TestResultEvent testResult)
         {
             if (ModelState.IsValid)
             {
-                _eventBus.Publish(testResultDto);
+                _eventBus.Publish(testResult);
 
                 return Ok(new { msg = "The answer has been sent successfully" });
             }

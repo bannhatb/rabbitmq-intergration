@@ -1,9 +1,7 @@
 
-using System.ComponentModel.DataAnnotations;
-
-namespace ProducerService.API.DTOs
+namespace ProducerService.API.Models.Events
 {
-    public class TestResultDto
+    public class TestResultEvent
     {
         public int UserId { get; set; } // who is doing
         public int ExamId { get; set; }

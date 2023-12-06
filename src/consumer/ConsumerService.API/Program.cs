@@ -1,8 +1,9 @@
 ﻿using ConsumerService.API;
-using ConsumerService.API.DTOs;
 using ConsumerService.API.Models.Entities;
+using ConsumerService.API.Models.Events;
 using ConsumerService.API.Repositories;
 using ConsumerService.API.Services;
+using ConsumerService.API.Services.EventHandlers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
@@ -42,21 +43,26 @@ builder.Services.AddScoped<IEventBusService, EventBusService>();
 builder.Services.AddScoped<IExamRepository, ExamRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
+// register handler
+builder.Services.AddScoped<IIntegrationEventHandler<DemoEvent>, DemoEventHandler>();
+builder.Services.AddScoped<IIntegrationEventHandler<TestResultEvent>, TestResultEventHandler>();
+builder.Services.AddSingleton<ISubscriptionManager>(x =>
+{
+    var subscription = new SubscriptionManager();
+    subscription.AddSubscription<DemoEvent, IIntegrationEventHandler<DemoEvent>>();
+    // more event
+    subscription.AddSubscription<TestResultEvent, IIntegrationEventHandler<TestResultEvent>>();
+    return subscription;
+});
 // Service chay ngam
 builder.Services.AddHostedService(sp =>
 {
     var connection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
     var logger = sp.GetRequiredService<ILogger<RabbitConsumerService>>();
     var configOptions = sp.GetRequiredService<IOptions<EventBusSettings>>();
+    var subscriptionManager = sp.GetRequiredService<ISubscriptionManager>();
 
-    // list subscribe
-    var eventNames = new List<string>()
-    {
-        nameof(MessageModel),
-        nameof(TestResultDto)
-    };
-
-    return new RabbitConsumerService(connection, logger, configOptions, eventNames);
+    return new RabbitConsumerService(connection, logger, configOptions, sp, subscriptionManager);
 });
 
 //

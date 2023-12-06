@@ -1,37 +1,33 @@
 
-using ConsumerService.API.DTOs;
-using ConsumerService.API.Models.Entities;
+using ConsumerService.API.Models.Events;
 using ConsumerService.API.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ConsumerService.API.Services.EventHandlers
 {
-    public class TestResultHandler
+    public class TestResultEventHandler : IIntegrationEventHandler<TestResultEvent>
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IEventBusService _eventBus;
 
-        public TestResultHandler()
-        {
-        }
-
-        public TestResultHandler(IQuestionRepository questionRepository, IEventBusService eventBus)
+        public TestResultEventHandler(IQuestionRepository questionRepository, IEventBusService eventBus)
         {
             _questionRepository = questionRepository;
             _eventBus = eventBus;
         }
 
-        public void ProcessTestResult(TestResultDto testResultDto)
+        public async Task Handle(TestResultEvent @event)
         {
             int rightAnswer = 0;
             int wrongAnswer = 0;
-            var testUser = new ScoreUserTest();
-            testUser.UserId = testResultDto.UserId;
-            testUser.ExamId = testResultDto.ExamId;
-            foreach (var item in testResultDto.ResultUserChooses)
+            var testUser = new ScoreUserTestEvent();
+            testUser.UserId = @event.UserId;
+            testUser.ExamId = @event.ExamId;
+            foreach (var item in @event.ResultUserChooses)
             {
                 if (item.Choose != null)
                 {
-                    var check = _questionRepository.Answers.FirstOrDefault(x => x.QuestionId == item.QuestionId && x.Id == item.Choose && x.RightAnswer == true);
+                    var check = await _questionRepository.Answers.FirstOrDefaultAsync(x => x.QuestionId == item.QuestionId && x.Id == item.Choose && x.RightAnswer == true);
                     // var check = _questionRepository.Answers.Where(x => x.QuestionId == item.QuestionId && x.Id == item.Choose && x.RightAnswer == true).FirstOrDefault();
                     if (check == null)
                     {
@@ -52,7 +48,6 @@ namespace ConsumerService.API.Services.EventHandlers
             testUser.Point = score;
             // Gui data qua test user
             _eventBus.Publish(testUser);
-
         }
     }
 }

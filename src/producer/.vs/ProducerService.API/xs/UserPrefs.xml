@@ -1,24 +1,37 @@
 ﻿<Properties StartupConfiguration="{8FBB3420-8628-44CF-9C78-08EC5F48B879}|https">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.ProducerService.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ProducerService.API/Services/RabbitProcedureService.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ProducerService.API/Program.cs">
     <Files>
-      <File FileName="ProducerService.API/Controllers/ProducerController.cs" Line="14" Column="55" />
-      <File FileName="ProducerService.API/Models/Entities/QuestionExam.cs" Line="19" Column="1" />
-      <File FileName="ProducerService.API/Program.cs" Line="47" Column="37" />
-      <File FileName="ProducerService.API/Services/RabbitProcedureService.cs" Line="114" Column="17" />
+      <File FileName="ProducerService.API/Controllers/ProducerController.cs" />
+      <File FileName="ProducerService.API/Models/Entities/QuestionExam.cs" />
+      <File FileName="ProducerService.API/Program.cs" Line="68" Column="77" />
+      <File FileName="ProducerService.API/Services/RabbitProcedureService.cs" Line="55" Column="14" />
+      <File FileName="ProducerService.API/Services/ISubscriptionManager.cs" Line="12" Column="38" />
+      <File FileName="ProducerService.API/Services/EventHandlers/SampleHandler.cs" Line="1" Column="1" />
+      <File FileName="ProducerService.API/Services/IEventBusService.cs" Line="4" Column="35" />
+      <File FileName="ProducerService.API/Models/Events/IntegrationEvent.cs" Line="14" Column="22" />
+      <File FileName="ProducerService.API/Services/IIntegrationEventHandler.cs" Line="8" Column="47" />
+      <File FileName="ProducerService.API/Models/Events/SubscriptionInfo.cs" Line="8" Column="1" />
+      <File FileName="ProducerService.API/Services/SubscriptionManager.cs" Line="78" Column="2" />
+      <File FileName="ProducerService.API/Models/Events/DemoEvent.cs" Line="6" Column="34" />
+      <File FileName="ProducerService.API/Services/EventHandlers/DemoEventHandler.cs" Line="12" Column="1" />
+      <File FileName="ProducerService.API/Services/IRabbitMQPersistentConnection.cs" Line="6" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ProducerService.API">
-            <Node name="ProducerService.API" expanded="True">
+            <Node name="ProducerService.API">
               <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True">
-                <Node name="Entities" expanded="True" />
+                <Node name="Events" expanded="True" />
               </Node>
-              <Node name="Services" expanded="True" />
+              <Node name="Services">
+                <Node name="EventHandlers" expanded="True" />
+              </Node>
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
@@ -28,5 +41,5 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.ProducerService.API PreferredExecutionTarget="/Applications/Google Chrome.app" />
 </Properties>

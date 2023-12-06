@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ConsumerService.API.DTOs
+namespace ProducerService.API.Models.Events
 {
-    public class ScoreUserTest
+    public class ScoreUserTestEvent : IntegrationEvent
     {
         public int UserId { get; set; } // who is doing
         public int ExamId { get; set; }

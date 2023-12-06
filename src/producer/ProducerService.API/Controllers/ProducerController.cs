@@ -31,18 +31,18 @@ namespace ProducerService.API.Controllers
             return BadRequest(new { msg = "invalid message" });
         }
 
-        [HttpPost("send-test-user-choose")]
-        public IActionResult SendTestUserChoose([FromBody] TestResultDto testResultDto)
-        {
-            if (ModelState.IsValid)
-            {
-                _eventBus.Publish(testResultDto);
+        // [HttpPost("send-test-user-choose")]
+        // public IActionResult SendTestUserChoose([FromBody] TestResultDto testResultDto)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         _eventBus.Publish(testResultDto);
 
-                return Ok(new { msg = "The answer has been sent successfully" });
-            }
+        //         return Ok(new { msg = "The answer has been sent successfully" });
+        //     }
 
-            return BadRequest(new { msg = "The answer has been sent failed" });
-        }
+        //     return BadRequest(new { msg = "The answer has been sent failed" });
+        // }
     }
 }
 

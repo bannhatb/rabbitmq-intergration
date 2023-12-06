@@ -1,9 +1,7 @@
 
-using System.ComponentModel.DataAnnotations;
-
-namespace ConsumerService.API.DTOs
+namespace ConsumerService.API.Models.Events
 {
-    public class TestResultDto
+    public class TestResultEvent : IntegrationEvent
     {
         public int UserId { get; set; } // who is doing
         public int ExamId { get; set; }

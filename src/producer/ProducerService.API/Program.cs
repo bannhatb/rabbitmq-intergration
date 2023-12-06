@@ -11,6 +11,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using ProducerService.API.Services.EventHandlers;
+using ProducerService.API.Models.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 // Connect postgres database
@@ -47,22 +49,27 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITestUserRepository, TestUserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+// register handler
+builder.Services.AddScoped<IIntegrationEventHandler<DemoEvent>, DemoEventHandler>();
+builder.Services.AddScoped<IIntegrationEventHandler<ScoreUserTestEvent>, TestUserHandler>();
 
-
+builder.Services.AddSingleton<ISubscriptionManager>(x =>
+{
+    var subscription = new SubscriptionManager();
+    subscription.AddSubscription<DemoEvent, IIntegrationEventHandler<DemoEvent>>();
+    // more event
+    subscription.AddSubscription<ScoreUserTestEvent, IIntegrationEventHandler<ScoreUserTestEvent>>();
+    return subscription;
+});
 // Service chay ngam
 builder.Services.AddHostedService(sp =>
 {
     var connection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
     var logger = sp.GetRequiredService<ILogger<RabbitProducerService>>();
     var configOptions = sp.GetRequiredService<IOptions<EventBusSettings>>();
+    var subscriptionManager = sp.GetRequiredService<ISubscriptionManager>();
 
-    // list subscribe
-    var eventNames = new List<string>()
-    {
-        nameof(ScoreUserTest)
-    };
-
-    return new RabbitProducerService(connection, logger, configOptions, eventNames);
+    return new RabbitProducerService(connection, logger, configOptions, sp, subscriptionManager);
 });
 builder.Services.Configure<Audience>(builder.Configuration.GetSection("Audience"));
 builder.Services.AddControllers();
