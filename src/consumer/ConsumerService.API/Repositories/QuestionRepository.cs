@@ -33,6 +33,11 @@ namespace ConsumerService.API.Repositories
             _dataContext.Answers.Add(answer);
         }
 
+        public double CountQuestionOfExam(int examId)
+        {
+            return _dataContext.QuestionExams.Count(x => x.ExamId == examId);
+        }
+
         public void Delete(Question question)
         {
             _dataContext.Questions.Remove(question);

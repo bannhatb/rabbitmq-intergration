@@ -18,8 +18,9 @@ namespace ConsumerService.API.Services.EventHandlers
 
         public async Task Handle(TestResultEvent @event)
         {
-            int rightAnswer = 0;
-            int wrongAnswer = 0;
+            double rightAnswer = 0;
+            double wrongAnswer = 0;
+            double countQuestionOfExam = _questionRepository.CountQuestionOfExam(@event.ExamId);
             var testUser = new ScoreUserTestEvent();
             testUser.UserId = @event.UserId;
             testUser.ExamId = @event.ExamId;
@@ -43,7 +44,8 @@ namespace ConsumerService.API.Services.EventHandlers
                     wrongAnswer += 1;
                 }
             }
-            double score = rightAnswer / (rightAnswer + wrongAnswer) * 10;
+
+            double score = (rightAnswer / countQuestionOfExam) * 10;
             score = Math.Round(score, 1);
             testUser.Point = score;
             // Gui data qua test user

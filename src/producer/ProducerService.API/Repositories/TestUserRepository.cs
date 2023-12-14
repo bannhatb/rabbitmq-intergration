@@ -1,5 +1,6 @@
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using ProducerService.API.DTOs;
 using ProducerService.API.Models.Entities;
 
 namespace ProducerService.API.Repositories
@@ -72,13 +73,27 @@ namespace ProducerService.API.Repositories
             return _dataContext.TestQuestionUserChooses.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<TestUser> GetRankUserByExamId(int id)
+        public List<RankUserDto> GetRankUserByExamId(int id)
         {
             var top10Users = _dataContext.TestUsers
                 .Where(x => x.ExamId == id)
                 .OrderByDescending(x => x.Point)
-                .Take(10)
+                .Select(x => new RankUserDto
+                {
+                    UserId = x.UserId,
+                    ExamId = x.ExamId,
+                    Point = x.Point
+                })
                 .ToList();
+            top10Users = top10Users
+                .GroupBy(x => x.UserId)
+                .Select(group => group.First())
+                .ToList();
+            foreach (var item in top10Users)
+            {
+                User user = _dataContext.Users.FirstOrDefault(x => x.Id == item.UserId);
+                item.Username = user.Username;
+            }
             return top10Users;
         }
     }
