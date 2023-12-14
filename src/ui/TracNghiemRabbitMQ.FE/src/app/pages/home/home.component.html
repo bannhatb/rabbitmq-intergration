@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>
+    Hello, {{fullName}}
+  </h1>
+  <br>
+  <h1>List Exam</h1>
+  <div class="row">
+    <div class="col-12 col-md-4" *ngFor="let exam of exams">
+      <app-exam [exam]="exam">
+      </app-exam>
+    </div>
+  </div>
+</div>
