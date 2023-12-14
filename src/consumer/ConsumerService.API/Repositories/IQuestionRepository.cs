@@ -14,6 +14,7 @@ namespace ConsumerService.API.Repositories
         void Add(Question question);
         void Update(Question question);
         void Delete(Question question);
+        double CountQuestionOfExam(int examId);
         Question GetQuestionById(int id);
         List<Question> GetListQuestion();
         List<QuestionDto> GetListQuestionDtoByExamId(int examId);

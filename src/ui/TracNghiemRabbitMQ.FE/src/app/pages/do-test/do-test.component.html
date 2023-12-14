@@ -1,0 +1,81 @@
+<div class="d-flex row flex-wrap justify-content-around">
+  <div *ngFor="let item of examDetailData?.questionDtos">
+    <div class="tab-pane fade show active my-5 mx-5">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="question ml-sm-5 pl-sm-5 pt-2">
+            <div>
+              <div>
+                <p class="question-content text-smd pb-1">Nội dung câu hỏi: {{item.questionContent}}</p>
+              </div>
+              <div class="question-item-answer">
+                <div class="answer-head">
+                  <span class="font-sm text-secondary ">câu trả lời</span>
+                </div>
+                <div *ngFor="let answer of item.answerDtos" class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
+                  <label>
+                    <input type="radio" [name]="'question_' + item.questionId" [value]="answer.answerId"
+                      (change)="onItemChange($event, item.questionId)">
+                    {{ answer.answerContent }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="submitTest" (click)="submitData()">Submit</button>
+  </div>
+</div>
+
+<!-- <form [formGroup]="form" (ngSubmit)="submitData()">
+  <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
+    <p>{{ question.questionContent }}</p>
+
+    <div *ngFor="let answer of question.answerDtos" class="answer-container">
+      <label>
+        <input type="radio" class="form-control" [name]="'question_' + question.questionId"
+          [(ngModel)]="answer.answerId" (change)="onItemChange($event.target)" [value]="answer.answerId">
+        {{ answer.answerContent }}
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary my-3 me-3">
+    Save
+  </button>
+</form> -->
+
+<!-- <form [formGroup]="form" (ngSubmit)="submitData()">
+  <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
+    <p>{{ question.questionContent }}</p>
+
+    <div *ngFor="let answer of question.answerDtos" class="answer-container">
+      <label *ngIf="form.get('question_' + question.questionId)">
+        <input type="radio" [name]="'question_' + question.questionId" [value]="answer.answerId"
+          [formControl]="$any(form).get('question_' + question.questionId)">
+        {{ answer.answerContent }}
+      </label>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary my-3 me-3">
+    Save
+  </button>
+</form> -->
+
+<!-- <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
+  <p>{{ question.questionContent }}</p>
+
+  <div *ngFor="let answer of question.answerDtos" class="answer-container">
+    <label>
+      <input type="radio" [name]="'question_' + question.questionId" [value]="answer.answerId"
+        (change)="handleAnswerChange(answer.answerId)">
+      {{ answer.answerContent }}
+    </label>
+  </div>
+</div>
+<button type="submit" class="btn btn-primary my-3 me-3">
+  Save
+</button> -->

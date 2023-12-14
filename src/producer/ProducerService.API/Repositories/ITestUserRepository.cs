@@ -1,4 +1,5 @@
 
+using ProducerService.API.DTOs;
 using ProducerService.API.Models.Entities;
 
 namespace ProducerService.API.Repositories
@@ -10,7 +11,7 @@ namespace ProducerService.API.Repositories
         void Update(TestUser testUser);
         void Delete(TestUser testUser);
         List<TestUser> GetListTestUser();
-        List<TestUser> GetRankUserByExamId(int id);
+        List<RankUserDto> GetRankUserByExamId(int id);
         TestUser GetTestUserById(int id);
 
         IQueryable<TestQuestionUserChoose> TestQuestionUserChooses { get; }

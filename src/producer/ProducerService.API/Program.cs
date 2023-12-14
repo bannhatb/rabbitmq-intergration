@@ -50,13 +50,11 @@ builder.Services.AddScoped<ITestUserRepository, TestUserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 // register handler
-builder.Services.AddScoped<IIntegrationEventHandler<DemoEvent>, DemoEventHandler>();
 builder.Services.AddScoped<IIntegrationEventHandler<ScoreUserTestEvent>, TestUserHandler>();
 
 builder.Services.AddSingleton<ISubscriptionManager>(x =>
 {
     var subscription = new SubscriptionManager();
-    subscription.AddSubscription<DemoEvent, IIntegrationEventHandler<DemoEvent>>();
     // more event
     subscription.AddSubscription<ScoreUserTestEvent, IIntegrationEventHandler<ScoreUserTestEvent>>();
     return subscription;
@@ -71,6 +69,20 @@ builder.Services.AddHostedService(sp =>
 
     return new RabbitProducerService(connection, logger, configOptions, sp, subscriptionManager);
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials(); // allow credentials
+        });
+});
+
 builder.Services.Configure<Audience>(builder.Configuration.GetSection("Audience"));
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
@@ -148,9 +160,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 

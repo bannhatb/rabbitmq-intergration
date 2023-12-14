@@ -39,7 +39,8 @@ namespace ProducerService.API.Controllers
         {
             try
             {
-                return Ok(_authService.Login(authUserDto));
+                var token = _authService.Login(authUserDto);
+                return Ok(new { access_token = token, token_type = "bearer" });
             }
             catch (UnauthorizedAccessException ex)
             {

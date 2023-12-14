@@ -44,12 +44,10 @@ builder.Services.AddScoped<IExamRepository, ExamRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 // register handler
-builder.Services.AddScoped<IIntegrationEventHandler<DemoEvent>, DemoEventHandler>();
 builder.Services.AddScoped<IIntegrationEventHandler<TestResultEvent>, TestResultEventHandler>();
 builder.Services.AddSingleton<ISubscriptionManager>(x =>
 {
     var subscription = new SubscriptionManager();
-    subscription.AddSubscription<DemoEvent, IIntegrationEventHandler<DemoEvent>>();
     // more event
     subscription.AddSubscription<TestResultEvent, IIntegrationEventHandler<TestResultEvent>>();
     return subscription;
@@ -66,6 +64,18 @@ builder.Services.AddHostedService(sp =>
 });
 
 //
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "CorsPolicy",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials(); // allow credentials
+        });
+});
 
 builder.Services.AddControllers();
 
@@ -83,9 +93,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllers();
 
