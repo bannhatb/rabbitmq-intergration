@@ -4,26 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { BusinessService } from './business.service';
 
 const GET_LIST_EXAM = Config.API_URL_CONSUMER + '/api/Exam/get-list-exam';
-const GET_EXAM_DETAIL = (id: any) => Config.API_URL_CONSUMER + '/api/Exam/get-exam-detail/' + id;
-
+const GET_EXAM_DETAIL = (id: any) =>
+  Config.API_URL_CONSUMER + '/api/Exam/get-exam-detail/' + id;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConsumerService {
-
   constructor(
     private httpClient: HttpClient,
-    private businessService: BusinessService,
-  ) { }
+    private businessService: BusinessService
+  ) {}
 
   getListExam() {
-    return this.httpClient.get(GET_LIST_EXAM, this.businessService.getRequestOptions())
+    return this.httpClient.get(
+      GET_LIST_EXAM,
+      this.businessService.getRequestOptions()
+    );
   }
 
-  getExamDetailById(id:any) {
-    return this.httpClient.get(GET_EXAM_DETAIL(id), this.businessService.getRequestOptions())
+  getExamDetailById(id: any) {
+    return this.httpClient.get(
+      GET_EXAM_DETAIL(id),
+      this.businessService.getRequestOptions()
+    );
   }
-
-
 }

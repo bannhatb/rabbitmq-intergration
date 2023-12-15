@@ -15,6 +15,7 @@ import { ProducerService } from './services/producer.service';
 import { BusinessService } from './services/business.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DoTestComponent } from './pages/do-test/do-test.component';
+import { CountDownComponent } from './layouts/count-down/count-down.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DoTestComponent } from './pages/do-test/do-test.component';
     LoginComponent,
     ExamComponent,
     ExamDetailComponent,
-    DoTestComponent
+    DoTestComponent,
+    CountDownComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,13 +34,9 @@ import { DoTestComponent } from './pages/do-test/do-test.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
   ],
-  providers: [
-    ConsumerService,
-    ProducerService,
-    BusinessService
-  ],
-  bootstrap: [AppComponent]
+  providers: [ConsumerService, ProducerService, BusinessService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

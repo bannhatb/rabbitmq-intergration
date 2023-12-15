@@ -5,36 +5,44 @@ import { ProducerService } from 'src/app/services/producer.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-
-  fullName: string = "Vo Van Ban"
-  exams:Array<any> = []
+  fullName: string = 'Vo Van Ban';
+  exams: Array<any> = [];
 
   constructor(
     private consumerService: ConsumerService,
     private producerService: ProducerService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadHome();
+    this.getUserId();
   }
 
   loadHome() {
-    this.consumerService.getListExam()
-      .subscribe(
-        (res) => this.handleGetExamSuccess(res),
-        (err) => this.handleGetExamError(err)
-    )
+    this.consumerService.getListExam().subscribe({
+      next: (res: any) => {
+        this.exams = res;
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {},
+    });
   }
 
-  handleGetExamSuccess(res: any) {
-    this.exams = res
-    console.log(res)
+  getUserId() {
+    this.producerService.getUserIdCurrent().subscribe({
+      next: (res: any) => {
+        console.log('UserCurrent: ' + res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {},
+    });
   }
-  handleGetExamError(err: any) {
-    console.log(err)
-  }
-
 }
