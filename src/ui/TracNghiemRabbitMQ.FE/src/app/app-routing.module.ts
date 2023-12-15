@@ -14,27 +14,27 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
       },
       {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
       },
       {
         path: 'exam-detail/:id',
-        component: ExamDetailComponent
+        component: ExamDetailComponent,
       },
       {
         path: 'do-test/:id',
         component: DoTestComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
-    ]
-  }
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

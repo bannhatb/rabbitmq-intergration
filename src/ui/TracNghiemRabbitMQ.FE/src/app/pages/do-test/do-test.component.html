@@ -26,56 +26,10 @@
       </div>
     </div>
   </div>
-  <div>
-    <button class="submitTest" (click)="submitData()">Submit</button>
-  </div>
 </div>
-
-<!-- <form [formGroup]="form" (ngSubmit)="submitData()">
-  <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
-    <p>{{ question.questionContent }}</p>
-
-    <div *ngFor="let answer of question.answerDtos" class="answer-container">
-      <label>
-        <input type="radio" class="form-control" [name]="'question_' + question.questionId"
-          [(ngModel)]="answer.answerId" (change)="onItemChange($event.target)" [value]="answer.answerId">
-        {{ answer.answerContent }}
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary my-3 me-3">
-    Save
-  </button>
-</form> -->
-
-<!-- <form [formGroup]="form" (ngSubmit)="submitData()">
-  <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
-    <p>{{ question.questionContent }}</p>
-
-    <div *ngFor="let answer of question.answerDtos" class="answer-container">
-      <label *ngIf="form.get('question_' + question.questionId)">
-        <input type="radio" [name]="'question_' + question.questionId" [value]="answer.answerId"
-          [formControl]="$any(form).get('question_' + question.questionId)">
-        {{ answer.answerContent }}
-      </label>
-    </div>
-  </div>
-  <button type="submit" class="btn btn-primary my-3 me-3">
-    Save
-  </button>
-</form> -->
-
-<!-- <div *ngFor="let question of examDetailData?.questionDtos" class="question-container">
-  <p>{{ question.questionContent }}</p>
-
-  <div *ngFor="let answer of question.answerDtos" class="answer-container">
-    <label>
-      <input type="radio" [name]="'question_' + question.questionId" [value]="answer.answerId"
-        (change)="handleAnswerChange(answer.answerId)">
-      {{ answer.answerContent }}
-    </label>
-  </div>
+<div>
+  <button class="submitTest" (click)="submitData()">Submit</button>
 </div>
-<button type="submit" class="btn btn-primary my-3 me-3">
-  Save
-</button> -->
+<div>
+  <app-count-down [time]="testTime"></app-count-down>
+</div>

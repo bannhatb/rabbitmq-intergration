@@ -115,6 +115,9 @@ namespace ConsumerService.API.Controllers
                 {
                     Id = exam.Id,
                     Title = exam.Title,
+                    Time = exam.Time,
+                    QuestionCount = exam.QuestionCount,
+                    CreateBy = exam.CreateBy,
                     QuestionDtos = _questionRepository.GetListQuestionDtoByExamId(id)
                 };
 
