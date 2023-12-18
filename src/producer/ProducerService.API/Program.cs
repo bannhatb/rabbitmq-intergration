@@ -91,7 +91,7 @@ builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PBL7.TracNghiemRabbitMQ", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "PBL7.TracNghiemRabbitMQ-ProducerService.API", Version = "v1" });
     //add frame to get token bearer
     c.AddSecurityDefinition("Bearer",
         new OpenApiSecurityScheme

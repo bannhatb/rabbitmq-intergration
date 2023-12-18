@@ -1,26 +1,3 @@
-<!-- <div class="card">
-  <div class="card-header">
-    <h3 class="card-title">
-      {{exam.title}}
-    </h3>
-  </div>
-  <div class="card-body">
-    Time: {{exam.time}} minutes
-  </div>
-  <div class="card-footer">
-    <p>
-      CreateBy: {{exam.createBy}}
-    </p>
-    <br>
-    <p>
-      Question Count: {{exam.questionCount}}
-    </p>
-  </div>
-  <a [routerLink]="['/exam-detail/'+exam.id]" routerLinkActive="router-link-active" class="btn btn-outline-primary">
-    Detail
-  </a>
-</div> -->
-
 <div class="card shadow-lg mb-4" style="width:400px">
   <img class="card-img-top" src="https://storage.tracnghiem.vn/public/trac-nghiem-ngoai-ngu.jpg" alt="Card image"
     style="width:100%">
@@ -55,7 +32,7 @@
       <a [routerLink]="['/exam-detail/'+exam.id]" routerLinkActive="router-link-active" class="btn btn-outline-warning">
         Chi tiết
       </a>
-      <a [routerLink]="['/do-test/'+exam.id]" routerLinkActive="router-link-active" class="btn btn-outline-secondary">
+      <a [routerLink]="['/do-test/'+exam.id]" routerLinkActive="router-link-active" class="btn btn-outline-primary">
         Bắt đầu làm bài
       </a>
     </div>

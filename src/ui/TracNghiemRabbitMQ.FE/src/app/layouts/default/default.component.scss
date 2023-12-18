@@ -108,3 +108,36 @@ Preloader
 #nav {
     width: 52%;
 }
+
+#header {
+    background-color: #2c2f30;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Thêm bóng đổ */
+}
+
+.navbar-header {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    margin-right: auto;
+    /* Logo sẽ căn trái, menu sẽ căn phải */
+}
+
+.main-menu a {
+    color: #000000;
+    /* Màu chữ */
+    font-size: 16px;
+    /* Kích thước chữ */
+}
+
+.main-menu a:hover {
+    color: #ffcc00;
+    /* Màu chữ khi hover */
+}
+
+.main-menu a.router-link-active {
+    color: #ffcc00;
+    /* Màu chữ khi active */
+}

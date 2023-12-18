@@ -13,6 +13,7 @@ export class ExamDetailComponent implements OnInit {
 
   examDetailData: any;
   rankUserData: any;
+  answerContentPrefix: string[] = ['A', 'B', 'C', 'D'];
 
   constructor(
     private activatedRoute: ActivatedRoute,

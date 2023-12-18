@@ -1,27 +1,17 @@
 <div class="d-flex row flex-wrap justify-content-around">
-  <div *ngFor="let item of examDetailData?.questionDtos">
-    <div class="tab-pane fade show active my-5 mx-5">
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="question ml-sm-5 pl-sm-5 pt-2">
+  <div *ngFor="let item of examDetailData?.questionDtos; let i = index" class="col-md-8">
+    <div class="card mb-3 border rounded shadow shadow-xm">
+      <div class="card-body">
+        <div class="question ml-sm-5 pl-sm-5 pt-2">
+          <div>
             <div>
-              <div>
-                <p class="question-content text-smd pb-1">Nội dung câu hỏi: {{item.questionContent}}</p>
-              </div>
+              <p class="question-content font-weight-bold text-smd pb-1">Câu {{i + 1}}: {{item.questionContent}}</p>
+            </div>
 
-              <div class="question-item-answer">
-                <div class="answer-head">
-                  <span class="font-sm text-secondary ">câu trả lời</span>
-                </div>
-
-                <div *ngFor="let answer of item.answerDtos" class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3" id="options">
-                  <label class="options">{{answer.answerContent}}
-                    <!-- <div>
-                      <input type="radio" checked=true value="{{answer.id}}" name="ans">
-                      <span class="checkmark"></span>
-                    </div> -->
-                  </label>
-                </div>
+            <div class="question-item-answer">
+              <div *ngFor="let answer of item.answerDtos; let j = index" class="ml-md-3 ml-sm-3 pl-md-5 pt-sm-0 pt-3"
+                id="options">
+                <label class="options">{{answerContentPrefix[j]}}. {{answer.answerContent}}</label>
               </div>
             </div>
           </div>
@@ -29,13 +19,14 @@
       </div>
     </div>
   </div>
-  <div>
-    <a [routerLink]="['/']" routerLinkActive="router-link-active" class="btn btn-outline-secondary">
-      Trở lại
-    </a>
-    <a [routerLink]="['/do-test/'+examDetailData?.id]" routerLinkActive="router-link-active"
-      class="btn btn-outline-secondary">
-      Bắt đầu làm bài
-    </a>
-  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a [routerLink]="['/']" routerLinkActive="router-link-active" class="btn btn-outline-secondary mr-2">
+    Trở lại
+  </a>
+  <a [routerLink]="['/do-test/', examDetailData?.id]" routerLinkActive="router-link-active"
+    class="btn btn-outline-primary">
+    Bắt đầu làm bài
+  </a>
 </div>
