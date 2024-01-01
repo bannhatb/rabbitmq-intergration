@@ -16,5 +16,7 @@ namespace ConsumerService.API.Repositories
         bool IsSaveChanges();
         Exam GetExamById(int id);
         List<Exam> GetListExam();
+        void Add(TestUser testUser);
+        void Update(TestUser testUser);
     }
 }

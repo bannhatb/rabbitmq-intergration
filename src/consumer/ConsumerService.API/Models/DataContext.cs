@@ -10,7 +10,7 @@ namespace ConsumerService.API.Models.Entities
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionExam> QuestionExams { get; set; }
         // public DbSet<TestQuestionUserChoose> TestQuestionUserChooses { get; set; }
-        // public DbSet<TestUser> TestUsers { get; set; }
+        public DbSet<TestUser> TestUsers { get; set; }
         // public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

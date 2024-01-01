@@ -7,15 +7,14 @@ namespace ConsumerService.API.Models.Entities
     {
         [Key]
         public int Id { get; set; }
-
-        [ForeignKey("User")]
+        [Required]
         public int UserId { get; set; } // who is doing
-        public User User { get; set; }
 
         [Required]
         public int ExamId { get; set; }
 
         [Required]
         public double Point { get; set; }
+        public DateTime CreateDay { get; set; }
     }
 }

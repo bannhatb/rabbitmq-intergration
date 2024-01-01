@@ -26,26 +26,6 @@ namespace ProducerService.API.Services
             {
                 _persistentConnection.TryConnect();
             }
-
-            // using var channel = _persistentConnection.CreateModel();
-            // channel.ExchangeDeclare(exchange: BROKER_NAME, type: "direct");
-
-            // var body = JsonSerializer.SerializeToUtf8Bytes(message, message.GetType(), new JsonSerializerOptions
-            // {
-            //     WriteIndented = true
-            // });
-
-            // var properties = channel.CreateBasicProperties();
-            // properties.DeliveryMode = 2; // persistent
-
-            // _logger.LogTrace("Publishing event to RabbitMQ");
-
-            // channel.BasicPublish(
-            //     exchange: BROKER_NAME,
-            //     routingKey: "MyRoutingKey",
-            //     mandatory: true,
-            //     basicProperties: properties,
-            //     body: body);
             using (var channel = _persistentConnection.CreateModel())
             {
                 var eventName = message.GetType().Name;

@@ -18,6 +18,11 @@ namespace ConsumerService.API.Repositories
             _dataContext.Exams.Add(exam);
         }
 
+        public void Add(TestUser testUser)
+        {
+            _dataContext.TestUsers.Add(testUser);
+        }
+
         public void Delete(Exam exam)
         {
             _dataContext.Exams.Remove(exam);
@@ -41,6 +46,11 @@ namespace ConsumerService.API.Repositories
         public void Update(Exam exam)
         {
             _dataContext.Exams.Update(exam);
+        }
+        
+        public void Update(TestUser testUser)
+        {
+            _dataContext.TestUsers.Update(testUser);
         }
     }
 }

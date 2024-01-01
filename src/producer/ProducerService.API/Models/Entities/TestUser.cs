@@ -17,5 +17,6 @@ namespace ProducerService.API.Models.Entities
 
         [Required]
         public double Point { get; set; }
+        public DateTime CreateDay { get; set; }
     }
 }

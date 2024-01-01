@@ -1,4 +1,5 @@
 
+using ConsumerService.API.Models.Entities;
 using ConsumerService.API.Models.Events;
 using ConsumerService.API.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ namespace ConsumerService.API.Services.EventHandlers
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IEventBusService _eventBus;
+        private readonly IExamRepository _examRepository;
 
-        public TestResultEventHandler(IQuestionRepository questionRepository, IEventBusService eventBus)
+        public TestResultEventHandler(IQuestionRepository questionRepository, IEventBusService eventBus, IExamRepository examRepository)
         {
             _questionRepository = questionRepository;
             _eventBus = eventBus;
+            _examRepository = examRepository;
         }
 
         public async Task Handle(TestResultEvent @event)
@@ -50,6 +53,14 @@ namespace ConsumerService.API.Services.EventHandlers
             testUser.Point = score;
             // Gui data qua test user
             _eventBus.Publish(testUser);
+            // var newUserTest = new TestUser()
+            // {
+            //     ExamId = @event.ExamId,
+            //     UserId = @event.UserId,
+            //     Point = score
+            // };
+            // _examRepository.Add(newUserTest);
+            // _examRepository.IsSaveChanges();
         }
     }
 }
